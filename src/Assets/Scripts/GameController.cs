@@ -50,8 +50,7 @@ namespace USER
             public class WORD
             {
                 [Header("PALABRA")]
-                public string PALABRA_FINAL = "default";
-                public string PALABRA_INICIAL = "def ult";
+                public string PALABRA = "default";
                 public string LETRAS_A_USAR = "AEIOU";
 
                 [Header("IMAGEN")]
@@ -60,10 +59,9 @@ namespace USER
                 public string ERROR_IMAGEN = "";
 
 
-                public WORD(string palabraInicial, string palabraFinal, string letras, string linkImagen)
+                public WORD(string palabraInicial, string letras, string linkImagen)
                 {
-                    PALABRA_INICIAL = palabraInicial;
-                    PALABRA_FINAL = palabraFinal;
+                    PALABRA = palabraInicial;
                     if(letras.Length >= 3)
                         LETRAS_A_USAR = letras;
                     LINK_IMAGEN = linkImagen;
@@ -227,8 +225,7 @@ namespace USER
                     _GAME.WORD word = new _GAME.WORD(
                         csvreader.ReturnCell(i, 0),
                         csvreader.ReturnCell(i, 1),
-                        csvreader.ReturnCell(i, 2),
-                        csvreader.ReturnCell(i, 3)
+                        csvreader.ReturnCell(i, 2)
                         );
 
                     yield return word.LoadImage();
