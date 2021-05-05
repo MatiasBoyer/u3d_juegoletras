@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 namespace USER
 {
     
+    [System.Serializable]
     public class CSVReader
     {
 
@@ -56,7 +57,7 @@ namespace USER
 
             for (int i = 0; i < lines.Length; i++)
             {
-                lines[i] = string.Join(";", csv_entries[i]);
+                lines[i] = string.Join(separator.ToString(), csv_entries[i]);
             }
 
             File.WriteAllLines(filePath, lines);
