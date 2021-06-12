@@ -102,7 +102,8 @@ namespace USER
             [HideInInspector]
             public bool Waiting = false;
 
-            private bool isRunning = false;
+            [HideInInspector]
+            public bool isRunning = false;
 
             public void AdvanceWord(float loadingTime = 0.2f)
             {
@@ -455,13 +456,13 @@ namespace USER
                     LevelEnd_IMAGE.texture = word.TEXTURE;
                     LevelEnd_PARENT.gameObject.SetActive(true);
 
-                    LeanTween.moveLocalY(LevelEnd_PARENT.gameObject, 0, 1.5f).setEaseInOutCubic()
+                    LeanTween.moveLocalY(LevelEnd_PARENT.gameObject, 0, .5f).setEaseInOutCubic()
                         .setOnComplete(() => LevelEnd_PARENT.interactable = true);
                 }
                 else
                 {
                     LevelEnd_PARENT.interactable = false;
-                    LeanTween.moveLocalY(LevelEnd_PARENT.gameObject, -canvas_scaler.referenceResolution.y, 1.5f).setEaseInOutCubic()
+                    LeanTween.moveLocalY(LevelEnd_PARENT.gameObject, -canvas_scaler.referenceResolution.y, .5f).setEaseInOutCubic()
                         .setOnComplete(() => LevelEnd_PARENT.gameObject.SetActive(false));
                 }
             }
@@ -531,6 +532,13 @@ namespace USER
                     break;
                 case "reload":
                     SceneManager.LoadScene(0);
+                    /*UI.ShowLevelChange(null);
+                    UI.ShowLevelEnd(null);
+
+                    GAME.isRunning = false;
+                    GAME.Waiting = false;
+                    GAME.PalabraActual = -1;
+                    GAME.Start();*/
                     break;
             }
         }
@@ -540,6 +548,7 @@ namespace USER
         {
             UnityWebRequest.ClearCookieCache();
             UnityWebRequest www = UnityWebRequest.Get(url);
+            www.timeout = 15;
 
             UI.ShowLoadingScreen(true);
             UI.LOADING_TEXT.text = "Cargando base de datos...";
@@ -585,7 +594,7 @@ namespace USER
                         continue;
                     }
 
-                    UI.LOADING_TEXT.text = $"Generando objeto de la linea {i}...";
+                    UI.LOADING_TEXT.text = $"Procesando {i}/{csvreader.max_rows}...";
                     _GAME.WORD word = new _GAME.WORD(
                         cell_0,
                         cell_1,
